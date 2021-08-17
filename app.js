@@ -15,6 +15,7 @@ const User = require('./src/Models/userModel');
 const authRoutes = require('./src/Routes/authRout');
 const userRoutes = require('./src/Routes/userRout');
 const dashRoutes = require('./src/Routes/dashRout');
+const postRoutes = require('./src/Routes/postRout');
 
 
 
@@ -78,6 +79,7 @@ app.use((req,res,next)=>{
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(dashRoutes);
+app.use(postRoutes);
 
 
 

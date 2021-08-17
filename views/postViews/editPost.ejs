@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+<p>Edit Post</p>
+
+<form action='/edit/post/<%=post._id%>' method='POST'>
+
+    <label for='desc'>Post Description :  </label> <br><br>
+    <textarea name="description" id="desc" cols="30" rows="10" required><%=post.description%></textarea>
+
+    <br><br>
+
+    <% if(!post.postlocation){ %>
+
+        <label for='postlocation'>Add Location : </label>
+        <input type='text' id='postlocation' name='postlocation'>
+
+
+    <% } else { %> 
+
+        <label for='postlocation'>Change Location : </label>
+        <input type='text' id='postlocation' name='postlocation'  value='<%=post.postlocation%>'>
+
+    <% } %> 
+
+
+
+
+    <button type='submit'>Post</button>
+
+</form>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

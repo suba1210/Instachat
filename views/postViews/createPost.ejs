@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <form action='/post/createnew' method="POST" enctype='multipart/form-data'>
+
+        <br><br>
+
+        <label for='file'>Post : </label><br><br>
+        <input type="file" id="file" name="image" onchange="return fileValidation()" required><br><br>
+
+        <label for='desc'>Post Description :  </label> <br><br>
+        <textarea name="description" id="desc" cols="30" rows="10" required></textarea>
+
+        <br><br>
+
+        <label for='postlocation'>Post Location : </label>
+        <input type='text' id='postlocation' name='postlocation'>
+
+        <button type='submit'>Post</button>
+
+    </form>  
+
+
+    
+    <script>
+
+        function fileValidation() {
+            let fileInput = document.getElementById('file');
+            let filePath = fileInput.value;
+            if(filePath!=''){
+            let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type! Only files with .jpg, .jpeg, .png or .gif are allowed');
+                fileInput.value = '';
+                return false;
+            } 
+          }
+                  
+        }
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

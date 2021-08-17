@@ -8,12 +8,32 @@ const mongoose = require('mongoose');
 
 // require models
 const User = require('../Models/userModel');
+const Post = require('../Models/postModel');
+
+
 
 // render home page
 router.get('/home', async(req,res)=>{
     const currentUser = await User.findById(req.user._id);
     const users = await User.find({});
-    res.render('home',{currentUser,users});
+    const allPosts = await Post.find({}).populate('owner');
+    let wholePost;
+    let specificPosts=[],suggestedPosts=[];
+    for(post of allPosts)
+    {
+        if((currentUser.following).includes(post.owner._id))
+        {
+            wholePost = await Post.findById(post._id).populate('owner');
+            specificPosts = specificPosts.concat(wholePost);
+        }
+        else if((post.owner.status=='public') && ((post.owner._id).equals(currentUser._id)==false))
+        {
+            wholePost = await Post.findById(post._id).populate('owner');
+            suggestedPosts = suggestedPosts.concat(wholePost);
+        }
+    }
+    
+    res.render('home',{currentUser,users,specificPosts,suggestedPosts});
 })
 
 
@@ -53,9 +73,13 @@ router.get('/followpublic/:id',async(req,res)=>{
     const public = await User.findById(req.params.id);
     const currentUser = await User.findById(req.user._id);
     public.followers = public.followers.concat(currentUser._id);
-    public.mutual = public.mutual.concat(currentUser._id);
+    if(public.mutual.includes(currentUser._id)==false){
+        public.mutual = public.mutual.concat(currentUser._id);
+    }
     currentUser.following = currentUser.following.concat(public._id);
-    currentUser.mutual = currentUser.mutual.concat(public._id);
+    if(currentUser.mutual.includes(public._id)==false){
+        currentUser.mutual = currentUser.mutual.concat(public._id);
+    }
     await public.save();
     await currentUser.save();
     res.redirect('back');

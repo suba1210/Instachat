@@ -10,7 +10,7 @@ const User = require('../Models/userModel');
 
 
 router.get('/me/profile',async(req,res)=>{
-    const currentUser = req.user;
+    const currentUser = await User.findById(req.user._id).populate('posts');
     res.render('userViews/profile',{currentUser});
 })
 

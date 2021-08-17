@@ -60,12 +60,29 @@
 
     <p>status : <%=currentUser.status%> </p>
 
-    
+    <p><a href='/post/createnew'> Add Post </a></p>
 
+    
     <a href='/home'>Back to home Page</a>
 
+    <br><hr><br><br>
 
+    <% if(currentUser.posts.length!=0){ %> 
 
+        <h2>Posts</h2>
+    
+        <% for(post of currentUser.posts){ %>    
+    
+            <a href='/post/show/<%=post._id%>'>
+            <img src="data:image/<%=post.image.contentType%>;base64, 
+            <%=post.image.data.toString('base64') %>" width="200" height="200" alt="Image">
+            </a>
+            
+            <hr><br><br>
+    
+        <% } %> 
+    
+    <% } %> 
 
 
 

@@ -3,9 +3,19 @@ const Schema = mongoose.Schema;
 
 
 const PostSchema = new Schema({
-    post : {
+    image : {
         data : Buffer,
         contentType : String
+    },
+    owner : {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    description : {
+        type : String
+    },
+    postlocation : {
+        type : String
     }
 
 },{
