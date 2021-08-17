@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<form action="/profile/edit?_method=PUT" method="POST">
+
+    <h3>Edit Profile</h3> 
+
+    <br><br>
+
+    <label for='realname'>Name : </label><br>
+    <input type='text' id='realname' name='realname' value='<%=currentUser.realname%>' required>
+
+    <br><br>
+
+    <label for='bio'>Bio : </label><br>
+    <textarea id='bio' name='bio'><%=currentUser.bio%></textarea>
+
+    <br><br>
+
+    <button type='submit'>Update</button>
+
+</form>
+
+<br><br>
+
+<a href='/me/profile'>Back</a>
+
+
+
+
+
+
+</body>
+</html>

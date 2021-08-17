@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instachat</title>
+</head>
+<body>
+    <%- include('../partials/flash') %>
+    <form action='/register' method="POST" enctype='multipart/form-data'>
+
+        <label for='username'>Username : </label>
+        <input id='username' type='text' name='username' placeholder="username" required>
+
+        <br><br>
+
+        <label for='realname'>Name : </label>
+        <input id=realname type='text' name='realname' placeholder='name' required>
+
+        <br><br>
+
+        <label for='email'>Email : </label>
+        <input id='email' type='email' name='email' placeholder='email' required>
+
+        <br><br>
+
+        <label for='password'>Password : </label>
+        <input id='password' type='password' name='password' placeholder='password' required>
+
+        <br><br>
+
+    <label for='file'>Profile Photo : </label><br><br>
+    <input type="file" id="file" name="image" onchange="return fileValidation()"><br><br>
+    
+    <br><br>
+
+        <button type='submit'>Submit</button>
+
+
+    </form>
+
+
+    <script>
+
+        function fileValidation() {
+            let fileInput = document.getElementById('file');
+            let filePath = fileInput.value;
+            if(filePath!=''){
+            let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type! Only files with .jpg, .jpeg, .png or .gif are allowed');
+                fileInput.value = '';
+                return false;
+            } 
+          }
+                  
+        }
+
+    </script>
+
+    <br><br>
+
+    <a href='/login'>Login</a>
+
+
+
+
+
+
+</body>
+</html>

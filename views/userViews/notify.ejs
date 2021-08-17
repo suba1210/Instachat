@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h4>Notifications Page</h4>
+
+    <ul>
+
+        <% if(currentUser.invites.length!=0){ %>
+            
+            <% for(invite of currentUser.invites){ %> 
+
+                <li><%=invite.username%> requested to follow you - <a href='/confirmrequest/<%=invite._id%>'>Confirm</a> &nbsp&nbsp <a href='/cancelrequest/<%=invite._id%>'>Delete</a></li>
+
+            <% } %> 
+            
+        <% } else { %>
+            
+            <p>No notifications</p>
+
+        <% } %> 
+
+
+
+
+
+    </ul>
+
+
+
+    <br><br>
+
+    <a href='/home'>Back to home Page</a>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

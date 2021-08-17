@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h2>InstaChat</h2>
+
+    <br><br>
+
+    <p>Suggested for you : </p>
+
+    <br><br>
+
+    <% if(users.length!=0){ %> 
+
+    <ul>
+
+    <% for(user of users){ %>
+
+        <% if(user.status !== 'public') { %> 
+
+            <% if((user._id).equals(currentUser._id)==false){ %> 
+        
+                <% if((currentUser.following.includes(user._id)==false) && (currentUser.requestSent.includes(user._id)==false)) { %>
+            
+                    <li><%=user.username%> - <a href='/requestfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Follow</a> </li>
+
+                <%} else if((currentUser.following.includes(user._id)==false) && (currentUser.requestSent.includes(user._id)==true)){ %>
+            
+                    <li><%=user.username%> - requestSent <a href='/requestcancelfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Cancel</a></li>
+
+                <% } %>
+            <% } %> 
+
+            
+        <% } else { %>
+
+            <% if((user._id).equals(currentUser._id)==false){ %> 
+        
+                <% if((currentUser.following.includes(user._id)==false)) { %> 
+
+                    <li><%=user.username%> - <a href='/followpublic/<%=user._id%>'>Follow</a> </li>
+
+                <% } %> 
+
+            <% } %> 
+            
+            
+        <% } %> 
+        
+    <% } %> 
+
+    </ul>
+
+    <% } else { %> 
+
+        <p>No users found!</p>
+
+    <% } %> 
+
+
+
+
+<a href='/me/notifications'>Notifications</a>
+
+<br><br>
+
+<a href='/me/profile'>Profile</a>
+
+<br><br>
+
+<a href='/logout'>Logout</a>
+
+<br><br>
+
+
+
+
+</body>
+</html>

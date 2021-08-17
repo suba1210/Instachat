@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+
+#profile{
+    border-radius: 50%;
+}
+
+</style>
+
+
+
+
+
+<body>
+    
+
+    <img src="data:image/<%=currentUser.image.contentType%>;base64, 
+    <%= currentUser.image.data.toString('base64') %>" width="200" height="200" id='profile' alt="Image">
+
+
+    <br><br>
+
+    <h2><%=currentUser.username%></h2>
+
+    <a href='/profile/edit' >Edit Profile</a>
+
+    <br><br>
+
+    <%=currentUser.posts.length%>&nbsp posts
+    
+    <br><br>
+
+    <%=currentUser.followers.length%>&nbsp followers
+    
+    <br><br>
+
+    <%=currentUser.following.length%>&nbsp following
+    
+    <br><br>
+
+    <%=currentUser.mutual.length%> &nbsp mutuals
+
+    <br><br>
+
+    <%=currentUser.realname%>
+    
+    <br><br>
+
+    Bio : <%=currentUser.bio%> 
+
+    <br><br>
+
+    <p>status : <%=currentUser.status%> </p>
+
+    
+
+    <a href='/home'>Back to home Page</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
