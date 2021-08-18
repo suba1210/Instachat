@@ -90,7 +90,8 @@ router.get('/edit/post/:id', async(req,res)=>{
 })
 
 router.post('/edit/post/:id',async(req,res)=>{
-    res.send(req.body);
+    const post = await Post.findByIdAndUpdate(req.params.id,req.body);
+    res.redirect(`/post/show/${post._id}`);
 })
 
 

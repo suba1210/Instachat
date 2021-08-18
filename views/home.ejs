@@ -10,6 +10,24 @@
     
     <h2>InstaChat</h2>
 
+    <br><br><br>
+
+    <ul>
+
+        <% for(user of users){ %>
+        
+            <% if(!(user._id).equals(currentUser._id)){ %>
+                
+                <li><a href='/otherprofile/<%=user._id%>/show'><%=user.username%></a></li>
+                
+            <% } %> 
+        
+        <% } %> 
+
+    </ul>
+
+    <br><br><br>
+
     <p>Specific Posts</p>
 
     <% for(post of specificPosts){ %>

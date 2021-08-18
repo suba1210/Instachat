@@ -80,7 +80,49 @@ router.get('/cancelrequest/:id',async(req,res)=>{
 
 })
 
+//showing others profile page
+router.get('/otherprofile/:id/show', async(req,res)=>{
+    const currentUser = await User.findById(req.user._id).populate('posts');
+    const otherUser = await User.findById(req.params.id).populate('posts');
+    if((currentUser.following).includes(otherUser._id))
+    {
+        
+        res.render('userViews/followingprofile',{currentUser,otherUser});
+    }
+    else if((currentUser.requestSent).includes(otherUser._id))
+    {
+        res.render('userViews/requestSent',{currentUser,otherUser})
+    }
+    else if(!((currentUser.requestSent).includes(otherUser._id)) && !((currentUser.following).includes(otherUser._id)) )
+    {
+        res.render('userViews/notfollowing',{currentUser,otherUser});
+    }
 
+   
+})
+
+
+//unfollow users
+router.get('/unfollow/:id',async(req,res)=>{
+    const currentUser = await User.findById(req.user._id);
+    const otherUser = await User.findById(req.params.id);
+
+    let ind1 = currentUser.following.indexOf(otherUser._id);
+    currentUser.following.splice(ind1,1);
+    let ind2 = currentUser.mutual.indexOf(otherUser._id);
+    currentUser.mutual.splice(ind2,1);
+
+    let ind3 = otherUser.followers.indexOf(currentUser._id);
+    otherUser.followers.splice(ind3,1);
+    let ind4 = otherUser.mutual.indexOf(currentUser._id);
+    otherUser.mutual.splice(ind4,1);
+
+    currentUser.save();
+    otherUser.save();
+
+    res.redirect('back');
+    
+})
 
 
 

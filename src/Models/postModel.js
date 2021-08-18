@@ -16,7 +16,11 @@ const PostSchema = new Schema({
     },
     postlocation : {
         type : String
-    }
+    },
+    likes : [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 
 },{
     timestamps: true

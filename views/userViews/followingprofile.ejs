@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<p><%=otherUser.username%> </p>
+
+<img src="data:image/<%=otherUser.image.contentType%>;base64, 
+<%=otherUser.image.data.toString('base64') %>" width="200" height="200" style='border-radius: 50%;' alt="Image">
+
+<span style='font-weight: bold;'>Following</span>
+
+<a href='/unfollow/<%=otherUser._id%>'>Click here to unfollow</a>
+
+
+<p><%=otherUser.posts.length%> Posts </p>
+
+<p><%=otherUser.following.length%> Following</p>
+
+<p><%=otherUser.followers.length%> Followers</p>
+
+<p><%=otherUser.mutual.length%> Mutuals</p>
+
+<p>Bio : <%otherUser.bio%> </p>
+
+<p>status : <%=otherUser.status%> </p>
+
+
+<a href='/home'>Back to home Page</a>
+
+<br><hr><br><br>
+
+<% if(otherUser.posts.length!=0){ %> 
+
+    <h2>Posts</h2>
+
+    <% for(post of otherUser.posts){ %>    
+
+        <a href='/post/show/<%=post._id%>'>
+        <img src="data:image/<%=post.image.contentType%>;base64, 
+        <%=post.image.data.toString('base64') %>" width="200" height="200" alt="Image">
+        </a>
+        
+        <hr><br><br>
+
+    <% } %> 
+
+<% } %> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
