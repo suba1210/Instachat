@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 
 // require models
 const User = require('../Models/userModel');
+const Post = require('../Models/postModel');
 
 
 router.get('/me/profile',async(req,res)=>{
@@ -169,6 +170,26 @@ router.get('/removefollower/:id',async(req,res)=>{
 
     res.redirect('back');
 
+})
+
+// like post 
+router.get('/likeshow/:id',async(req,res)=>{
+    const currentUser = await User.findById(req.user._id);
+    const post = await Post.findById(req.params.id);
+    post.likes = post.likes.concat(currentUser._id)
+    await post.save();
+    res.redirect('back');
+})
+
+
+//unlike post
+router.get('/unlikeshow/:id',async(req,res)=>{
+    const currentUser = await User.findById(req.user._id);
+    const post = await Post.findById(req.params.id);
+    let ind1 = post.likes.indexOf(currentUser._id);
+    post.likes.splice(ind1,1);
+    await post.save();
+    res.redirect('back');
 })
 
 

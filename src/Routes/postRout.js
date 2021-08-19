@@ -75,7 +75,12 @@ router.post('/post/createnew', upload.single('image'),async function(req,res){
 //showing post 
 router.get('/post/show/:id',async(req,res)=>{
     const currentUser = await User.findById(req.user._id);
-    const post = await Post.findById(req.params.id).populate('owner');
+    const post = await Post.findById(req.params.id).populate('owner').populate({
+        path : 'comments',
+        populate : {
+            path : 'owner'
+        }
+    });
     res.render('postViews/showPost',{post,currentUser});
 
 })

@@ -16,6 +16,7 @@ const authRoutes = require('./src/Routes/authRout');
 const userRoutes = require('./src/Routes/userRout');
 const dashRoutes = require('./src/Routes/dashRout');
 const postRoutes = require('./src/Routes/postRout');
+const commentRoutes = require('./src/Routes/commentRout');
 
 
 
@@ -80,6 +81,7 @@ app.use(authRoutes);
 app.use(userRoutes);
 app.use(dashRoutes);
 app.use(postRoutes);
+app.use(commentRoutes);
 
 
 

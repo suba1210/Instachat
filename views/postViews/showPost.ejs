@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- emoji one area -->
+    <link rel='stylesheet' href='/CSS/emojionearea.min.css'>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src='/JS/emojionearea.min.js'></script>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
     <title>Document</title>
 </head>
 <body>
@@ -17,15 +31,76 @@
     <img src="data:image/<%=post.image.contentType%>;base64, 
     <%=post.image.data.toString('base64') %>" width="200" height="200" alt="Image">
 
-    <p><%=post.description%></p>
-
-    <p>Location : <%=post.postlocation%></p>
-
+    
     <% if((currentUser._id).equals(post.owner._id)) { %>
 
         <a href='/edit/post/<%=post._id%>'>Edit Post</a>
 
     <% } %> 
+
+    <p><%=post.description%></p>
+
+    <p>Location : <%=post.postlocation%></p>
+
+    <% if((currentUser.bookmarks).includes(post._id)){ %>
+        
+        <a href='/removebookmarkshow/<%=post._id%>' style='font-size: larger;'><i class="fas fa-bookmark"></i></a>
+
+    <% } else { %> 
+
+        <a href='/addbookmarkshow/<%=post._id%>' style='font-size: larger;'><i class="far fa-bookmark"></i></a> 
+
+    <% } %> 
+
+    <br><br>
+
+    <%if(!((post.likes).includes(currentUser._id))){ %> 
+
+    <a  href='/likeshow/<%=post._id%>' style='font-size: larger;'><i class="far fa-heart"></i></a>
+
+    <% } else { %> 
+
+        <a  href='/unlikeshow/<%=post._id%>' style='font-size: larger; color : red;'><i class="fas fa-heart"></i></a>
+
+    <% } %> 
+
+    <p><%=post.likes.length%> Likes</p>
+
+    <p>Comments</p>
+
+    <form action='/commentadd/<%=post._id%>' method='POST'>
+
+    <div style='width:200px'>
+
+        <input type='text' id='myTextarea' name='message' required>
+
+    </div>
+
+    <br><br>
+
+    <button type='submit'>Add Comment</button>
+
+    </form>
+
+    <script>
+        $(document).ready(function(){
+            $("#myTextarea").emojioneArea();
+        })
+    </script>
+
+    <br><br>
+
+    <% for(comment of post.comments){ %>
+        
+        <%=comment.owner.username%> -  <%=comment.message%> 
+
+        <br><br>
+    <% } %> 
+
+
+
+
+
 
 </body>
 </html>
