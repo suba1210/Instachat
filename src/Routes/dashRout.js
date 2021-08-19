@@ -63,6 +63,7 @@ router.get('/requestcancelfrom/:fromid/requestto/:toid', async(req,res)=>{
     }
     await requestFrom.save();
     await requestTo.save();
+    // res.redirect(`/otherprofile/${req.params.toid}/show`);
     res.redirect('back');
 })
 

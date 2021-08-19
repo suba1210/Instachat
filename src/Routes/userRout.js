@@ -51,8 +51,16 @@ router.get('/confirmrequest/:id',async(req,res)=>{
         otherUser.requestSent.splice(index2,1);
     }
     if(currentUser.following.includes(otherUser._id) && currentUser.followers.includes(otherUser._id)){
-        currentUser.mutual = currentUser.mutual.concat(otherUser._id);
+        if(!((currentUser.mutual).includes(otherUser._id)))
+        {
+            currentUser.mutual = currentUser.mutual.concat(otherUser._id);
+        }
+        if(!((otherUser.mutual).includes(currentUser._id)))
+        {
         otherUser.mutual = otherUser.mutual.concat(currentUser._id);
+        }
+
+
     }
     await currentUser.save();
     await otherUser.save();
@@ -124,6 +132,44 @@ router.get('/unfollow/:id',async(req,res)=>{
     
 })
 
+
+//show followings page
+router.get('/myfollowing/show',async(req,res)=>{
+    const currentUser = await User.findById(req.user._id).populate('following');
+    const followings = currentUser.following;
+    res.render('userViews/allFollowingList',{currentUser,followings})
+})
+
+
+//show followers page
+router.get('/allfollowers/show',async(req,res)=>{
+    const currentUser = await User.findById(req.user._id).populate('followers');
+    const followers = currentUser.followers;
+    res.render('userViews/allFollowerList',{currentUser,followers})
+})
+
+
+//remove a follower
+router.get('/removefollower/:id',async(req,res)=>{
+    const currentUser = await User.findById(req.user._id);
+    const removeUser = await User.findById(req.params.id);
+
+    let ind1 = currentUser.followers.indexOf(removeUser._id);
+    currentUser.followers.splice(ind1,1);
+    let ind2 = currentUser.mutual.indexOf(removeUser._id);
+    currentUser.mutual.splice(ind2,1);
+
+    let ind3 = removeUser.following.indexOf(currentUser._id);
+    removeUser.following.splice(ind3,1);
+    let ind4 = removeUser.mutual.indexOf(currentUser._id);
+    removeUser.mutual.splice(ind4,1);
+
+    currentUser.save();
+    removeUser.save();
+
+    res.redirect('back');
+
+})
 
 
 
