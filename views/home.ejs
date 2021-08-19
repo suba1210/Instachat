@@ -5,6 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
     
@@ -30,29 +34,73 @@
 
     <p>Specific Posts</p>
 
+    <% let i=0 %> 
     <% for(post of specificPosts){ %>
+        <% i++ %> 
 
+        <div id='post<%=i%>'>
+            
         <a href='/post/show/<%=post._id%>'>
-            <img src="data:image/<%=post.image.contentType%>;base64, 
+            <img   src="data:image/<%=post.image.contentType%>;base64, 
             <%=post.image.data.toString('base64') %>" width="200" height="200" alt="Image">
         </a>
 
-        <br><hr><br>
+        <br><br>
+
+        <%if(!((post.likes).includes(currentUser._id))){ %> 
+
+        <a  href='/likehome/<%=post._id%>/<%=i%>' style='font-size: larger;'><i class="far fa-heart"></i></a>
+
+        <% } else{ %>
+                    
+        <a  href='/unlikehome/<%=post._id%>/<%=i%>' style='font-size: larger; color : red; transition:0.2s'><i class="fas fa-heart"></i></a>
+    
+        <% } %> 
+
+        <br><br>
+
+        <%=post.likes.length%> Likes 
+
+        <br><br><hr><br>
+
+        </div>
     
     <% } %> 
 
     <p>Suggested Posts</p>
 
 
-    
+    <% let j=0 %> 
     <% for(post of suggestedPosts){ %>
+        
+        <% j++ %> 
+
+        <div id='post<%=j%>'>
 
         <a href='/post/show/<%=post._id%>'>
             <img src="data:image/<%=post.image.contentType%>;base64, 
             <%=post.image.data.toString('base64') %>" width="200" height="200" alt="Image">
         </a>
+        
+        <br><br>
+
+        <%if(!((post.likes).includes(currentUser._id))){ %> 
+
+        <a  href='/likehome/<%=post._id%>/<%=j%>' style='font-size: larger;'><i class="far fa-heart"></i></a>
+
+        <% } else{ %>
+                    
+        <a  href='/unlikehome/<%=post._id%>/<%=j%>' style='font-size: larger; color : red; transition:0.2s'><i class="fas fa-heart"></i></a>
+    
+        <% } %> 
+
+        <br><br>
+
+        <%=post.likes.length%> Likes 
 
         <br><hr><br>
+
+    </div>
     
     <% } %> 
 

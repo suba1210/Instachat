@@ -95,9 +95,25 @@ router.post('/edit/post/:id',async(req,res)=>{
 })
 
 
+// like post 
+router.get('/likehome/:id/:num',async(req,res)=>{
+    const currentUser = await User.findById(req.user._id);
+    const post = await Post.findById(req.params.id);
+    post.likes = post.likes.concat(currentUser._id)
+    await post.save();
+    res.redirect(`/home#post${req.params.num}`);
+})
 
 
-
+//unlike post
+router.get('/unlikehome/:id/:num',async(req,res)=>{
+    const currentUser = await User.findById(req.user._id);
+    const post = await Post.findById(req.params.id);
+    let ind1 = post.likes.indexOf(currentUser._id);
+    post.likes.splice(ind1,1);
+    await post.save();
+    res.redirect(`/home#post${req.params.num}`);
+})
 
 
 module.exports = router;
