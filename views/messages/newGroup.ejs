@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<h4>Create new Group</h4>
+
+
+<a href='/chat/allgroups'>Back to all Groups</a>    
+
+<br><br>
+
+<form action='/group/create/new' method='POST'>
+
+    <label for='name'>Group name</label>
+    <input type='text' id='name' name='name'>
+
+    <br><br>
+
+    <ul>
+
+    <% for(mutual of currentUser.mutual){ %>
+        
+        <input type='checkbox' name='users[]' value='<%=mutual._id%>'>
+        <label><%=mutual.username%></label>
+
+        <br>
+
+    <% } %> 
+
+    </ul>
+
+    <button type='submit'>Create group</button>
+
+</form>
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -60,6 +60,10 @@ const UserSchema = new Schema({
     chattedWith : [{
         type: Schema.Types.ObjectId,
         ref: 'User'
+    }],
+    groups : [{
+        type: Schema.Types.ObjectId,
+        ref: 'Group'
     }]
 
 },{

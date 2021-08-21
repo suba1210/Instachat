@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- for configuring socket.io -->
+    <script defer src="http://localhost:5000/socket.io/socket.io.js"></script>
+    <script defer src="/JS/groupclient.js"></script>
+
+</head>
+<body>
+
+
+<a href='/chat/allgroups'>Back to all Groups</a>    
+    
+<h4> <%=group.name%> </h4>
+
+
+
+<div>
+
+    <form id="msgForm" action="">
+    
+        <input type="text" name="msg">
+    
+        <button type='submit'>Send</button>
+    
+    </form>
+    
+</div>
+    
+<br><br>
+    
+<ul>
+    
+    <div id='messages' >
+    
+        <% for(chat of group.chats){ %>
+            
+            <li> <%=chat.owner%> --- <%=chat.msg%>  </li>
+            
+        <% } %> 
+    
+    </div>
+    
+</ul>
+    
+    
+
+
+
+</body>
+</html>

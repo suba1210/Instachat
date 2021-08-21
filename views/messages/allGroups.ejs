@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<h4>All Groups</h4> --- <a href='/group/create/new'>Create new Group</a>
+
+<ul>
+
+<% for(group of currentUser.groups){ %> 
+
+    <li> <a href='/group/show/<%=group._id%>'><%=group.name%> </a></li>
+
+<% } %> 
+
+
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

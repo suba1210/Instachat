@@ -13,6 +13,9 @@ const ChatSchema = new Schema({
     },
     channel : {
         type : String
+    },
+    group : {
+        type : String
     }
 
 },{

@@ -12,6 +12,7 @@ const localStrategy = require('passport-local');
 const User = require('./src/Models/userModel');
 const Message = require('./src/Models/chatModel');
 const Channel = require('./src/Models/channelModel');
+const Group = require('./src/Models/groupModel');
 
 
 //require routes
@@ -119,15 +120,39 @@ io.on('connection', async(socket) => {
     //     })
     // })
 
-    socket.on('chatmessage', async(msg) => {
-        const message = await new Message( msg );
+    // socket.on('chatmessage', async(msg) => {
+    //     const message = await new Message( msg );
+    //     const channel = await Channel.findById(msg.channel);
+    //     channel.chats = channel.chats.concat(message);
+    //     channel.save();
+    //     message.save().then(() => {
+    //         io.sockets.in(`${channel._id}`).emit('message', msg)
+    //     })
+    // })
+
+
+    socket.on('chatmessage', async(message) => {
+        const msg = await new Message({msg : message.msg , owner : message.owner , channel : message.channel});
         const channel = await Channel.findById(msg.channel);
-        channel.chats = channel.chats.concat(message);
-        channel.save();
-        message.save().then(() => {
-            io.sockets.in(`${channel._id}`).emit('message', msg)
+        channel.chats = channel.chats.concat(msg);
+        await channel.save();
+        console.log(channel);
+        msg.save().then(() => {
+            io.sockets.in(`${channel._id}`).emit('message', message)
         })
     })
+
+    socket.on('groupmessage', async(message) => {
+        const msg = await new Message({msg : message.msg , owner : message.owner , group : message.group});
+        const group = await Group.findById(msg.group);
+        group.chats = group.chats.concat(msg);
+        await group.save();
+        console.log(group);
+        msg.save().then(() => {
+            io.sockets.in(`${group._id}`).emit('message', message)
+        })
+    })
+
 
     
     ///////////////////////

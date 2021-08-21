@@ -11,6 +11,7 @@ const User = require('../Models/userModel');
 const Post = require('../Models/postModel');
 const Channel = require('../Models/channelModel');
 const Chat = require('../Models/chatModel');
+const Group = require('../Models/groupModel');
 
 
 
@@ -61,6 +62,55 @@ router.get('/chat/channel/:id',async(req,res)=>{
 
 })
 
+
+router.get('/chat/allgroups',async(req,res)=>{
+
+    const currentUser = await User.findById(req.user._id).populate('groups');
+    res.render('messages/allGroups',{currentUser});
+    
+})
+
+
+router.get('/group/create/new',async(req,res)=>{
+
+    const currentUser = await User.findById(req.user._id).populate('mutual');
+    res.render('messages/newGroup',{currentUser});
+
+})
+
+
+router.post('/group/create/new',async(req,res)=>{
+
+
+    const {name,users} = req.body;
+    const group = await new Group({name,users});
+    group.users = group.users.concat(req.user._id);
+    await group.save();
+
+    const currentUser = await User.findById(req.user._id);
+    currentUser.groups = currentUser.groups.concat(group._id)
+    await currentUser.save();
+    for(userId of req.body.users)
+    {
+        let user = await User.findById(userId);
+        user.groups = user.groups.concat(group._id);
+        await user.save();
+    }
+    
+    res.redirect(`/group/show/${group._id}`)
+
+
+
+})
+
+
+router.get('/group/show/:id',async(req,res)=>{
+
+    const group = await Group.findById(req.params.id).populate('chats');
+    const currentUser = await User.findById(req.user._id);
+    res.render('messages/showGroup',{group,currentUser});
+
+})
 
 
 module.exports = router;
