@@ -10,6 +10,9 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./src/Models/userModel');
+const Message = require('./src/Models/chatModel');
+const Channel = require('./src/Models/channelModel');
+
 
 //require routes
 const authRoutes = require('./src/Routes/authRout');
@@ -92,7 +95,58 @@ app.get('/', async(req,res)=>{
 
 
 
-
-app.listen(5000, () => {
+const server = app.listen(5000, () => {
     console.log('Serving on port 5000')
 })
+
+
+//socket.io
+
+const io = require('socket.io')(server);
+
+io.on('connection', async(socket) => {
+
+    console.log('a user connected');
+    
+
+    // socket.on('chatmessage', async(msg) => {
+    //     const message = await new Message( msg );
+    //     const channel = await Channel.findById(msg.channel);
+    //     channel.chats = channel.chats.concat(message);
+    //     channel.save();
+    //     message.save().then(() => {
+    //         io.emit('message', msg)
+    //     })
+    // })
+
+    socket.on('chatmessage', async(msg) => {
+        const message = await new Message( msg );
+        const channel = await Channel.findById(msg.channel);
+        channel.chats = channel.chats.concat(message);
+        channel.save();
+        message.save().then(() => {
+            io.sockets.in(`${channel._id}`).emit('message', msg)
+        })
+    })
+
+    
+    ///////////////////////
+
+    io.sockets.on('connection', function (socket) {
+        socket.on('join', function (data) {
+          socket.join(data.channel1); // using room of socket io to join
+        });
+    });
+
+    ///////////////////////
+
+
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+
+
+
+    
+});

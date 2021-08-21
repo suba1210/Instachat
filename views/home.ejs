@@ -12,23 +12,12 @@
 </head>
 <body>
     
+    <% let username = currentUser.username %> 
+
+    <% let id = currentUser._id %> 
+
+
     <h2>InstaChat</h2> --- <a href='/messages/show'>Message</a>
-
-    <br><br><br>
-
-    <ul>
-
-        <% for(user of users){ %>
-        
-            <% if(!(user._id).equals(currentUser._id)){ %>
-                
-                <li><a href='/otherprofile/<%=user._id%>/show'><%=user.username%></a></li>
-                
-            <% } %> 
-        
-        <% } %> 
-
-    </ul>
 
     <br><br><br>
 
@@ -195,6 +184,17 @@
 <br><br>
 
 
+<script>
+
+
+    let username = '<%-username%>';
+    let id = '<%-id%>';
+
+    localStorage.setItem('username',`${username}`);
+    localStorage.setItem('id',`${id}`);
+
+
+</script>
 
 
 </body>
