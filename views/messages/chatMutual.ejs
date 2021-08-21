@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <p>Your Mutual friends</p>
+
+    <ul>
+
+    <% for(mutual of currentUser.mutual){ %>
+
+        <% if(!((currentUser.chattedWith).includes(mutual._id))){ %> 
+        
+        <li><%=mutual.username%> - <a href='/startchat/<%=mutual._id%>'>Start chat</a> </li>
+
+        <% } %> 
+
+    <% } %> 
+
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

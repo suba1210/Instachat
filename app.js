@@ -17,7 +17,7 @@ const userRoutes = require('./src/Routes/userRout');
 const dashRoutes = require('./src/Routes/dashRout');
 const postRoutes = require('./src/Routes/postRout');
 const commentRoutes = require('./src/Routes/commentRout');
-
+const chatRoutes = require('./src/Routes/chatRout');
 
 
 mongoose.connect('mongodb://localhost:27017/deltaproject', {
@@ -82,6 +82,7 @@ app.use(userRoutes);
 app.use(dashRoutes);
 app.use(postRoutes);
 app.use(commentRoutes);
+app.use(chatRoutes);
 
 
 

@@ -11,7 +11,7 @@ const Post = require('../Models/postModel');
 
 
 router.get('/me/profile',async(req,res)=>{
-    const currentUser = await User.findById(req.user._id).populate('posts');
+    const currentUser = await User.findById(req.user._id).populate('posts').populate('bookmarks');
     res.render('userViews/profile',{currentUser});
 })
 

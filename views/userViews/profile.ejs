@@ -84,6 +84,23 @@
     
     <% } %> 
 
+    <% if(currentUser.bookmarks.length!=0){ %>
+        
+        <p>Bookmarks</p>
+
+        <% for(bookmark of currentUser.bookmarks){ %>    
+    
+            <a href='/post/show/<%=bookmark._id%>'>
+            <img src="data:image/<%=bookmark.image.contentType%>;base64, 
+            <%=bookmark.image.data.toString('base64') %>" width="200" height="200" alt="Image">
+            </a>
+            
+            <hr><br><br>
+    
+        <% } %> 
+        
+    <% } %> 
+
 
 
 

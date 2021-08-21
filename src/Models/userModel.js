@@ -52,6 +52,14 @@ const UserSchema = new Schema({
     mutual : [{
         type: Schema.Types.ObjectId,
         ref: 'User'
+    }],
+    channels : [{
+        type: Schema.Types.ObjectId,
+        ref: 'Channel'
+    }],
+    chattedWith : [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }]
 
 },{
