@@ -9,6 +9,9 @@ const multer = require('multer');
 // require models
 const User = require('../Models/userModel');
 const Post = require('../Models/postModel');
+const Channel = require('../Models/channelModel');
+const Chat = require('../Models/chatModel');
+const Group = require('../Models/groupModel');
 
 
 
@@ -118,6 +121,46 @@ router.get('/unlikehome/:id/:num',async(req,res)=>{
     post.likes.splice(ind1,1);
     await post.save();
     res.redirect(`/home#post${req.params.num}`);
+})
+
+
+// sharing post
+router.get('/sharepost/:postid',async(req,res)=>{
+
+    const currentUser = await User.findById(req.user._id).populate('channels').populate('groups');
+    const post = await Post.findById(req.params.postid);
+    res.render('messages/allShares',{currentUser,post});
+
+})
+
+
+//sending post to channels
+router.get('/sharepost/:postid/:channelid',async(req,res)=>{
+
+    const currentUser = await User.findById(req.user._id);
+    const post = await Post.findById(req.params.postid);
+    const channel = await Channel.findById(req.params.channelid);
+    const chat = await new Chat({msgType : 'link', msg : `/post/show/${post._id}`,owner:currentUser.username});
+    await chat.save();
+    channel.chats = channel.chats.concat(chat._id);
+    await channel.save();
+    res.redirect(`/chat/channel/${channel._id}`);
+
+})
+
+
+//sending post to groups
+router.get('/sharepostgroup/:postid/:groupid',async(req,res)=>{
+
+    const currentUser = await User.findById(req.user._id);
+    const post = await Post.findById(req.params.postid);
+    const group = await Group.findById(req.params.groupid);
+    const chat = await new Chat({msgType : 'link', msg : `/post/show/${post._id}`,owner:currentUser.username});
+    await chat.save();
+    group.chats = group.chats.concat(chat._id);
+    await group.save();
+    res.redirect(`/group/show/${req.params.groupid}`);
+
 })
 
 

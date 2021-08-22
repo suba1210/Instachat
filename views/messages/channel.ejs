@@ -36,20 +36,22 @@
 <div id='messages' >
 
     <% for(chat of channel.chats){ %>
-        
-        <li> <%=chat.owner%> --- <%=chat.msg%>  </li>
-        
+
+        <% if(chat.msgType == 'link'){ %> 
+
+        <li> <%=chat.owner%> shared a post - <a href='<%=chat.msg%>'>Click here to view</a>  </li>
+
+        <% } else { %>
+            
+            <li> <%=chat.owner%> --- <%=chat.msg%>  </li>
+            
+        <% } %> 
+
     <% } %> 
 
 </div>
 
 </ul>
-
-
-
-
-
-
 
 
 

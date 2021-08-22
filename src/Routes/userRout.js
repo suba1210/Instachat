@@ -40,17 +40,21 @@ function checkFileType(file, callback, req, res) {
     }
 }
 
-
+//show profile page
 router.get('/me/profile',async(req,res)=>{
     const currentUser = await User.findById(req.user._id).populate('posts').populate('bookmarks');
     res.render('userViews/profile',{currentUser});
 })
 
+
+//show edit form
 router.get('/profile/edit', async(req,res)=>{
     const currentUser = req.user;
     res.render('userViews/editProfile',{currentUser});
 })
 
+
+//posting edit form
 router.post('/profile/edit',upload.single('image'),async(req,res)=>{
     
     if(req.body.photo == 'remove')
@@ -82,14 +86,11 @@ router.post('/profile/edit',upload.single('image'),async(req,res)=>{
         }
         else{
 
-
             const {realname,bio} =req.body;
             const update = await User.findByIdAndUpdate(req.user._id, {bio,realname})
             res.redirect('/me/profile');
 
-
         }
-
 
     }
 })

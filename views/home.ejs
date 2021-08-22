@@ -36,6 +36,11 @@
 
         <br><br>
 
+        
+        <a href='/sharepost/<%=post._id%>'>Share Post</a>
+
+        <br><br>
+
         <% if((currentUser.bookmarks).includes(post._id)){ %>
         
             <a href='/removebookmarkhome/<%=post._id%>/<%=i%>' style='font-size: larger;'><i class="fas fa-bookmark"></i></a>
@@ -83,6 +88,10 @@
             <%=post.image.data.toString('base64') %>" width="200" height="200" alt="Image">
         </a>
         
+        <br><br>
+
+        <a href='/sharepost/<%=post._id%>'>Share Post</a>
+
         <br><br>
 
         <% if((currentUser.bookmarks).includes(post._id)){ %>

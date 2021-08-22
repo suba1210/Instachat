@@ -4,7 +4,13 @@ const Schema = mongoose.Schema;
 
 
 const ChatSchema = new Schema({
-    
+    image : {
+        data : Buffer,
+        contentType : String
+    },
+    msgType : {
+        type : String
+    },
     msg : {
         type : String
     },

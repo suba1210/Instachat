@@ -42,6 +42,11 @@
 
     <p>Location : <%=post.postlocation%></p>
 
+
+    <a href='/sharepost/<%=post._id%>'>Share Post</a>
+
+    <br><br>
+
     <% if((currentUser.bookmarks).includes(post._id)){ %>
         
         <a href='/removebookmarkshow/<%=post._id%>' style='font-size: larger;'><i class="fas fa-bookmark"></i></a>
