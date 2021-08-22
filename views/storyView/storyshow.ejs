@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+
+<p><%=story.owner.username%> </p>
+
+<% if(story.storyType=='image'){ %>
+    
+    <img src="data:image/<%=story.image.contentType%>;base64, 
+    <%=story.image.data.toString('base64') %>" width="200" height="200" alt="Image">
+   
+<% } else { %>
+    
+    <p><%=story.text%></p>
+    
+<% } %> 
+
+
+<p><%=story.description%> </p>
+
+<% if(story.owner.username == currentUser.username){  %>
+    
+    <a href='/deletestory/<%=story._id%>'>Delete Story</a>
+
+<% } %> 
+
+
+</body>
+</html>

@@ -9,7 +9,7 @@ const ChatSchema = new Schema({
         contentType : String
     },
     msgType : {
-        type : String
+        type : String //link,image
     },
     msg : {
         type : String

@@ -67,7 +67,15 @@ const UserSchema = new Schema({
     groups : [{
         type: Schema.Types.ObjectId,
         ref: 'Group'
-    }]
+    }],
+    story : {
+        type: Schema.Types.ObjectId,
+        ref: 'Story'
+    },
+    isStory : {
+        type : Boolean,
+        default : false
+    }
 
 },{
     timestamps: true

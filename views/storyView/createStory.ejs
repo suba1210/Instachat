@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<h4>Add to your Story</h4>
+
+<button onclick='image()'  id='textStory' style='display:none'>Add Text Story</button>
+
+<button  onclick='text()' id='imageStory'>Keep an image as story</button>
+
+<br><br>
+
+<form style='display: none;' id='imageForm' action='/imagestory/new' method="POST" enctype='multipart/form-data'>
+
+    <label>Add Image</label> 
+
+    <br><br>
+
+    <input type='file' id='file' name='image'  onchange="return fileValidation()" required>
+
+    <br><br>
+
+    <label>Story Description</label>
+    
+    <br>
+
+    <textarea id='description' name='description' required></textarea>
+
+    <br><br>
+
+    <button type='submit'>Submit</button>
+
+    <br><br>
+
+
+</form>
+
+
+<form id='textForm' action='/textstory/new' method='POST' >
+
+    <label>Add Text</label> 
+
+    <br><br>
+
+    <textarea name='text' required></textarea>
+
+    <br><br>
+
+    <label>Story Description</label>
+    
+    <br>
+
+    <textarea id='description' name='description' required></textarea>
+
+    <br><br>
+
+    <button type='submit'>Submit</button>
+
+    <br><br>
+
+</form>
+
+
+<script>
+
+function fileValidation() {
+            let fileInput = document.getElementById('file');
+            let filePath = fileInput.value;
+            if(filePath!=''){
+            let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type! Only files with .jpg, .jpeg or .png are allowed');
+                fileInput.value = '';
+                return false;
+        } 
+    }
+                  
+}
+
+
+function image(){
+
+    document.getElementById('imageForm').style.display = 'none';
+    document.getElementById('textForm').style.display = 'block';
+    document.getElementById('imageStory').style.display = 'block';
+    document.getElementById('textStory').style.display = 'none';
+
+}
+
+function text(){
+
+    document.getElementById('imageForm').style.display = 'block';
+    document.getElementById('textForm').style.display = 'none';
+    document.getElementById('textStory').style.display = 'block';
+    document.getElementById('imageStory').style.display = 'none';
+
+}
+
+function dateValidation1(){
+            let deadline = document.getElementById('deadline1');
+            let deadlineDate = deadline.value;
+            if(deadlineDate!=''){
+                let now = Date.now();
+                let deadlineFormat = new Date(deadlineDate);
+            if(deadlineFormat<now){
+                alert('Deadline must be greater than present time!');
+                deadline.value='';
+                return false;
+        }
+    }
+}
+
+function dateValidation2(){
+            let deadline = document.getElementById('deadline2');
+            let deadlineDate = deadline.value;
+            if(deadlineDate!=''){
+                let now = Date.now();
+                let deadlineFormat = new Date(deadlineDate);
+            if(deadlineFormat<now){
+                alert('Deadline must be greater than present time!');
+                deadline.value='';
+                return false;
+        }
+    }
+}
+
+
+</script>
+
+
+
+</body>
+</html>

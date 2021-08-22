@@ -18,7 +18,13 @@ router.get('/home', async(req,res)=>{
     const users = await User.find({});
     const allPosts = await Post.find({}).populate('owner');
     let wholePost;
-    let specificPosts=[],suggestedPosts=[];
+    let specificPosts=[],suggestedPosts=[],forStory=[];
+    const userForStory = currentUser.following;
+    for(u of userForStory)
+    {
+        let f = await User.findById(u).populate('story');
+        forStory = forStory.concat(f);
+    }
     for(post of allPosts)
     {
         if((currentUser.following).includes(post.owner._id))
@@ -33,7 +39,7 @@ router.get('/home', async(req,res)=>{
         }
     }
     
-    res.render('home',{currentUser,users,specificPosts,suggestedPosts});
+    res.render('home',{currentUser,users,specificPosts,suggestedPosts,forStory});
 })
 
 

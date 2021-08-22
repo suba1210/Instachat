@@ -3,7 +3,8 @@ const router = express.Router();
 const passport = require('passport');
 const path = require('path');
 const mongoose = require('mongoose');
-
+const fs = require('fs'); //a native package of node
+const multer = require('multer');
 
 
 // require models
@@ -13,7 +14,34 @@ const Channel = require('../Models/channelModel');
 const Chat = require('../Models/chatModel');
 const Group = require('../Models/groupModel');
 
+//image upload
+const storage = multer.diskStorage({
+    destination: './public/uploads',
+    filename: function(req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now() + 
+        path.extname(file.originalname));
+    }
+});
 
+const upload = multer({
+    storage: storage,
+    fileFilter: function(req, file, callback) {
+        checkFileType(file, callback);
+    }
+});
+
+function checkFileType(file, callback, req, res) {
+    
+    const filetypes = /jpeg|jpg|png|gif/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+
+    if(mimetype && extname) {
+        return callback(null, true);
+    } else {
+        callback("Error: Images only!");
+    }
+}
 
 router.get('/messages/show',async(req,res)=>{
 
@@ -63,6 +91,7 @@ router.get('/chat/channel/:id',async(req,res)=>{
 
 
 })
+
 
 
 //all groups
@@ -126,6 +155,7 @@ router.get('/group/addusers/:id',async(req,res)=>{
 
 })
 
+
 //post add members to the team
 router.post('/group/addusers/:id',async(req,res)=>{
 
@@ -155,6 +185,44 @@ router.get('/group/leave/:id',async(req,res)=>{
     group.users.splice(ind2,1);
     await group.save();
     res.redirect('/chat/allgroups');
+
+})
+
+
+//sending images in channels
+router.post('/shareimage/channel/:id',upload.single('image'),async(req,res)=>{
+
+    const currentUser = await User.findById(req.user._id);
+    const channel = await Channel.findById(req.params.id);
+    const chat = await new Chat({owner:req.user.username,msgType:'image',
+    image : {
+        data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)), 
+        contentType: 'image/png'
+    } 
+    });
+    await chat.save();
+    channel.chats = channel.chats.concat(chat._id);
+    await channel.save();
+    res.redirect(`/chat/channel/${channel._id}`);
+
+})
+
+
+// sending images in group
+router.post('/shareimage/group/:id',upload.single('image'),async(req,res)=>{
+
+    const currentUser = await User.findById(req.user._id);
+    const group = await Group.findById(req.params.id);
+    const chat = await new Chat({owner:req.user.username,msgType:'image',
+    image : {
+        data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)), 
+        contentType: 'image/png'
+    } 
+    });
+    await chat.save();
+    group.chats = group.chats.concat(chat._id);
+    await group.save();
+    res.redirect(`/group/show/${group._id}`);
 
 })
 

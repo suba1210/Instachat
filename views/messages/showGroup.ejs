@@ -31,14 +31,32 @@
 
 
 <div>
-
     <form id="msgForm" action="">
-    
+
         <input type="text" name="msg">
     
         <button type='submit'>Send</button>
     
     </form>
+    
+    
+    <form id='imageForm' style='display: none;' action='/shareimage/group/<%=group._id%>' method='POST' enctype='multipart/form-data'>
+    
+    <label for='file'>Share an image</label>
+    
+    <input type='file' id='file' name='image' onchange="return fileValidation()"  required>
+    
+    <br><br>
+    
+    <button type='submit'>Share</button>
+    
+    </form>
+    
+    <br><br>
+    
+    <button id='imageShare' onclick='shareImage()'> Share an image </button>
+    
+    <button id='msgShare' style='display:none' onclick='shareMsg()'> Chat </button>
     
 </div>
     
@@ -54,17 +72,61 @@
 
                 <li> <%=chat.owner%> shared a post - <a href='<%=chat.msg%>'>Click here to view</a>  </li>
 
+            <% } else if(chat.msgType == 'image'){ %>
+
+                <%=chat.owner%> - <br><br>
+                <img src="data:image/<%=chat.image.contentType%>;base64, 
+                <%=chat.image.data.toString('base64') %>" width="200" height="200" alt="Image">
+
             <% } else { %> 
             
-            <li> <%=chat.owner%> --- <%=chat.msg%>  </li>
+                <li> <%=chat.owner%> --- <%=chat.msg%>  </li>
 
             <% } %> 
+
+            <br><br>
             
         <% } %> 
     
     </div>
     
 </ul>
+
+<script>
+
+    function fileValidation() {
+            let fileInput = document.getElementById('file');
+            let filePath = fileInput.value;
+            if(filePath!=''){
+            let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type! Only files with .jpg, .jpeg, .png or .gif are allowed');
+                fileInput.value = '';
+                return false;
+            } 
+        }                  
+    }
+    
+    function shareImage(){
+    
+    document.getElementById("msgForm").style.display = 'none';
+    document.getElementById('imageForm').style.display = 'block';
+    document.getElementById('imageShare').style.display = 'none';
+    document.getElementById('msgShare').style.display='block';
+    
+    }
+    
+    function shareMsg(){
+    
+    document.getElementById("msgForm").style.display = 'block';
+    document.getElementById('imageForm').style.display = 'none';
+    document.getElementById('imageShare').style.display = 'block';
+    document.getElementById('msgShare').style.display='none';
+    
+    }
+    
+    
+</script>    
     
     
 

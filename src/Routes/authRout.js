@@ -6,13 +6,14 @@ const mongoose = require('mongoose');
 const fs = require('fs'); //a native package of node
 const multer = require('multer');
 
+
+
 //require models
 const User = require('../Models/userModel');
 
 
 
 //image upload
-
 const storage = multer.diskStorage({
     destination: './public/uploads',
     filename: function(req, file, callback) {
@@ -20,6 +21,8 @@ const storage = multer.diskStorage({
         path.extname(file.originalname));
     }
 });
+
+
 
 const upload = multer({
     storage: storage,

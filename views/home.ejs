@@ -10,7 +10,44 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
+<style>
+
+.story{
+
+    display: flex;
+    flex-direction: row;
+}
+
+</style>
+
+
 <body>
+
+    <div class='story' style='width:400px;height: 100px;border:2px solid black;overflow: scroll;'>
+
+        <% if(currentUser.isStory == false){ %> 
+
+            <a href='/addstory/new'>Add Story</a>
+
+        <% } else { %> 
+
+            <a href='/story/<%=currentUser.story%>'>show story</a>
+
+        <% } %> 
+
+        <% for(k of forStory){ %>
+            
+            <% if(k.isStory==true){ %>
+                
+                &nbsp&nbsp<a href='/story/<%=k.story._id%>'><%=k.username%></a>
+                
+            <% } %> 
+
+        <% } %> 
+
+    </div>
+
+
     
     <% let username = currentUser.username %> 
 
