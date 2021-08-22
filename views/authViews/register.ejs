@@ -8,15 +8,15 @@
 </head>
 <body>
     <%- include('../partials/flash') %>
-    <form action='/register' method="POST" enctype='multipart/form-data'>
+    <form action='/register' method="POST">
 
         <label for='username'>Username : </label>
         <input id='username' type='text' name='username' placeholder="username" required>
 
         <br><br>
 
-        <label for='realname'>Name : </label>
-        <input id=realname type='text' name='realname' placeholder='name' required>
+        <label for='realname'>Your Name : </label>
+        <input id=realname type='text' name='realname' placeholder='Your name' required>
 
         <br><br>
 
@@ -30,8 +30,6 @@
 
         <br><br>
 
-    <label for='file'>Profile Photo : </label><br><br>
-    <input type="file" id="file" name="image" onchange="return fileValidation()"><br><br>
     
     <br><br>
 
