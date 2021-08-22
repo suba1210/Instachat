@@ -8,7 +8,7 @@
 </head>
 <body>
     
-<form action="/profile/edit?_method=PUT" method="POST">
+<form action="/profile/edit" method="POST" enctype='multipart/form-data'>
 
     <h3>Edit Profile</h3> 
 
@@ -24,6 +24,37 @@
 
     <br><br>
 
+    <% if(currentUser.haveProfile==true){ %>
+        
+        <label for='editPhoto'>Change Profile photo</label>
+
+        <select name='photo' id='editPhoto' onchange="return changeInput()">
+
+            <option value='edit'>Change existing profile photo</option>
+            <option value='remove'>Remove existing profile photo</option>
+
+        </select>
+
+        <br><br>
+
+        <input type='file' id='file' name='image' onchange="return fileValidation()">
+
+    <% } else { %>
+        
+        <label for='file'>Add Profile photo</label>
+
+        <br><br>
+
+        <input type='file' id='file' name='image' onchange="return fileValidation()">
+        
+    <% } %> 
+
+    
+
+
+
+    <br><br>
+
     <button type='submit'>Update</button>
 
 </form>
@@ -31,6 +62,42 @@
 <br><br>
 
 <a href='/me/profile'>Back</a>
+
+<script>
+
+function changeInput(){
+
+    let select = document.getElementById('editPhoto');
+    let selectValue = select.value;
+    if(selectValue=='edit'){
+        document.getElementById('file').style.display='block';
+    }
+    if(selectValue=='remove'){
+        document.getElementById('file').style.display='none';
+    }
+    return true;
+
+}
+
+function fileValidation() {
+        let fileInput = document.getElementById('file');
+        let filePath = fileInput.value;
+        if(filePath!=''){
+            let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+            alert('Invalid file type! Only files with .jpg, .jpeg or .png are allowed');
+            fileInput.value = '';
+            return false;
+        } 
+    }
+                  
+}
+
+
+
+
+
+</script>
 
 
 

@@ -3,11 +3,42 @@ const router = express.Router();
 const passport = require('passport');
 const path = require('path');
 const mongoose = require('mongoose');
-
+const fs = require('fs'); //a native package of node
+const multer = require('multer');
 
 // require models
 const User = require('../Models/userModel');
 const Post = require('../Models/postModel');
+
+//image upload
+
+const storage = multer.diskStorage({
+    destination: './public/uploads',
+    filename: function(req, file, callback) {
+        callback(null, file.fieldname + '-' + Date.now() + 
+        path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    fileFilter: function(req, file, callback) {
+        checkFileType(file, callback);
+    }
+});
+
+function checkFileType(file, callback, req, res) {
+    
+    const filetypes = /jpeg|jpg|png|gif/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+
+    if(mimetype && extname) {
+        return callback(null, true);
+    } else {
+        callback("Error: Images only!");
+    }
+}
 
 
 router.get('/me/profile',async(req,res)=>{
@@ -20,11 +51,47 @@ router.get('/profile/edit', async(req,res)=>{
     res.render('userViews/editProfile',{currentUser});
 })
 
-router.put('/profile/edit',async(req,res)=>{
-    const currentUser = req.user;
-    const user = await User.findByIdAndUpdate(req.user._id,req.body);
-    await user.save();
-    res.redirect('/me/profile');
+router.post('/profile/edit',upload.single('image'),async(req,res)=>{
+    
+    if(req.body.photo == 'remove')
+    {
+        const {realname,bio} =req.body;
+        const update = await User.findByIdAndUpdate(req.user._id, {bio,realname,
+            image : {
+                data: fs.readFileSync(path.join('./public/uploads/avatar.jpg')), 
+                contentType: 'image/png'
+            }
+        
+        })
+        res.redirect('/me/profile');
+    }
+    else {
+
+        if(req.file){
+
+
+            const {realname,bio} =req.body;
+            const update = await User.findByIdAndUpdate(req.user._id, {bio,realname,
+                image : {
+                    data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)), 
+                    contentType: 'image/png'
+                }
+            })
+            res.redirect('/me/profile');
+
+        }
+        else{
+
+
+            const {realname,bio} =req.body;
+            const update = await User.findByIdAndUpdate(req.user._id, {bio,realname})
+            res.redirect('/me/profile');
+
+
+        }
+
+
+    }
 })
 
 

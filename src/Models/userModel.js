@@ -5,6 +5,9 @@ const passportLocalMongo = require('passport-local-mongoose');
 
 
 const UserSchema = new Schema({
+    haveProfile : {
+        type : Boolean
+    },
     email : {
         type : String
     },

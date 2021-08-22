@@ -117,7 +117,7 @@ router.post('/subregister/:id',upload.single('image'),async(req,res)=>{
 
     const user = await User.findById(req.params.id);
     const {status,bio,mobileNumber} = req.body;
-    const updateUser = await User.findByIdAndUpdate(req.params.id,{status,bio,mobileNumber,
+    const updateUser = await User.findByIdAndUpdate(req.params.id,{status,bio,mobileNumber,haveProfile:true,
         image : {
             data: fs.readFileSync(path.join('./public/uploads/' + req.file.filename)), 
             contentType: 'image/png'
@@ -129,7 +129,7 @@ router.post('/subregister/:id',upload.single('image'),async(req,res)=>{
     } else {
         const user = await User.findById(req.params.id);
         const {status,bio,mobileNumber} = req.body;
-        const updateUser = await User.findByIdAndUpdate(req.params.id,{status,bio,mobileNumber,
+        const updateUser = await User.findByIdAndUpdate(req.params.id,{status,bio,mobileNumber,haveProfile:false,
             image : {
                 data: fs.readFileSync(path.join('./public/uploads/avatar.jpg')), 
                 contentType: 'image/png'
