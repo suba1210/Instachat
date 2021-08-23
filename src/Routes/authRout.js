@@ -53,7 +53,6 @@ router.post('/register',async(req,res)=>{
         const {email,username,password,realname} = req.body;
         const user = new User({email,username,realname});
         const registerUser = await User.register(user,password);
-        req.flash("success_msg", "Successfully registered, You can Login now!");
         res.redirect(`/subregister/${user._id}`);
     }catch(err){
         console.log(err);

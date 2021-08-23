@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<% layout('layouts/boilerplate')%>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-</head>
 <style>
 
 .story{
@@ -179,11 +169,11 @@
         
                 <% if((currentUser.following.includes(user._id)==false) && (currentUser.requestSent.includes(user._id)==false)) { %>
             
-                    <li><%=user.username%> - <a href='/requestfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Follow</a> </li>
+                    <li><a href='/otherprofile/<%=user._id%>/show'><%=user.username%></a> - <a href='/requestfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Follow</a> </li>
 
                 <%} else if((currentUser.following.includes(user._id)==false) && (currentUser.requestSent.includes(user._id)==true)){ %>
             
-                    <li><%=user.username%> - requestSent <a href='/requestcancelfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Cancel</a></li>
+                    <li><a href='/otherprofile/<%=user._id%>/show'><%=user.username%></a> - requestSent <a href='/requestcancelfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Cancel</a></li>
 
                 <% } %>
             <% } %> 
@@ -195,7 +185,7 @@
         
                 <% if((currentUser.following.includes(user._id)==false)) { %> 
 
-                    <li><%=user.username%> - <a href='/followpublic/<%=user._id%>'>Follow</a> </li>
+                    <li><a href='/otherprofile/<%=user._id%>/show'> <%=user.username%></a> - <a href='/followpublic/<%=user._id%>'>Follow</a> </li>
 
                 <% } %> 
 
@@ -241,7 +231,3 @@
 
 
 </script>
-
-
-</body>
-</html>
