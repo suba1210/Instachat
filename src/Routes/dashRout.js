@@ -38,7 +38,8 @@ router.get('/home', async(req,res)=>{
             suggestedPosts = suggestedPosts.concat(wholePost);
         }
     }
-    
+    specificPosts.reverse();
+    suggestedPosts.reverse();
     res.render('home',{currentUser,users,specificPosts,suggestedPosts,forStory});
 })
 
@@ -90,6 +91,14 @@ router.get('/followpublic/:id',async(req,res)=>{
     await currentUser.save();
     res.redirect('back');
 
+})
+
+//see all users 
+
+router.get('/allProfiles/show',async(req,res)=>{
+    const currentUser = await User.findById(req.user._id);
+    const users = await User.find({});
+    res.render('seeAll',{currentUser,users});
 })
 
 

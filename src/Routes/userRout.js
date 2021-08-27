@@ -81,6 +81,9 @@ router.post('/profile/edit',upload.single('image'),async(req,res)=>{
                     contentType: 'image/png'
                 }
             })
+            const user = await User.findById(req.user._id);
+            user.haveProfile = true;
+            user.save();
             res.redirect('/me/profile');
 
         }

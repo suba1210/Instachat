@@ -1,0 +1,112 @@
+<% layout('layouts/boilerplate')%>
+
+<style>
+
+.suggested{
+    max-width: 640px;
+    width:100%;
+    border:1px solid rgb(180, 179, 179);
+    margin:10px auto;
+    padding:24px;
+    border-radius: 8px;
+}
+.aligning{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom:20px;
+}
+.aligning>div>a{
+    color:black;
+    font-weight: bold;
+}
+
+</style>
+    
+<br>
+
+<h1 style='text-align: center;'>Suggestions</h1>
+
+<br><br>
+
+<div class='suggested'>
+
+    <% if(users.length>=2){ %> 
+    
+        <% for(user of users){ %>
+    
+    
+            <% if(user.status !== 'public') { %> 
+    
+                <% if((user._id).equals(currentUser._id)==false){ %> 
+            
+                    <% if((currentUser.following.includes(user._id)==false) && (currentUser.requestSent.includes(user._id)==false)) { %>
+                
+                        <div class='aligning'>
+    
+                            <div>
+    
+                                <img src="data:image/<%=user.image.contentType%>;base64, 
+                                <%=user.image.data.toString('base64') %>" width="40px" height="40px" style='border-radius: 50%;' alt="Image">
+    
+                                &nbsp<a href='/otherprofile/<%=user._id%>/show'><%=user.username%></a>
+    
+                            </div>  
+                            <a class="btn btn-primary" role='button' href='/requestfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Follow</a>
+                        </div>
+    
+                    <%} else if((currentUser.following.includes(user._id)==false) && (currentUser.requestSent.includes(user._id)==true)){ %>
+                
+                        <div class='aligning'> 
+    
+                            <div>
+                                
+                                <img src="data:image/<%=user.image.contentType%>;base64, 
+                                <%=user.image.data.toString('base64') %>" width="40px" height="40px" style='border-radius: 50%;' alt="Image">
+                                &nbsp<a  href='/otherprofile/<%=user._id%>/show'><%=user.username%></a> 
+    
+                            </div>
+    
+                            <a class="btn btn-primary" role='button' href='/requestcancelfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Cancel request</a>
+                        </div>
+    
+                    <% } %>
+                <% } %> 
+    
+                
+            <% } else { %>
+    
+                <% if((user._id).equals(currentUser._id)==false){ %> 
+            
+                    <% if((currentUser.following.includes(user._id)==false)) { %> 
+    
+                        <div class='aligning'>
+                            
+                            <div>
+                                <img src="data:image/<%=user.image.contentType%>;base64, 
+                                <%=user.image.data.toString('base64') %>" width="40px" height="40px" style='border-radius: 50%;' alt="Image">
+    
+                                &nbsp<a href='/otherprofile/<%=user._id%>/show'> <%=user.username%></a>  
+    
+                            </div>
+    
+                            <a class="btn btn-primary" role='button' href='/followpublic/<%=user._id%>'>Follow</a> 
+                    
+                        </div>
+    
+                    <% } %> 
+    
+                <% } %> 
+            
+            <% } %> 
+    
+        <% } %> 
+    
+    <% } else { %>
+        
+        <p style='text-align: center;' >No suggestions to show!</p>
+
+    <% } %> 
+    
+    
+</div>

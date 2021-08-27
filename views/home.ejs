@@ -2,10 +2,73 @@
 
 <style>
 
+.whole{
+    display: flex;
+    flex-direction: row;
+    max-width: 980px;
+    width:100%;
+    margin:40px auto;
+}
+.container{
+    max-width: 615px;
+    width:100%;
+    margin:0 30px 0 0 ;
+}
+.suggested{
+    margin-left:40px;
+    max-width: 280px;
+    width:100%;
+}
+
+.postContainer{
+    display:flex;
+    flex-direction: column;
+    margin-bottom:40px;
+}
+.topPost{
+    border:1px solid rgb(180, 179, 179);
+    width:615px;
+    height:57px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.topPost>div>img{
+    width:40px;
+    height : 40px;
+    border-radius : 50%;
+    margin:10px;
+}
+.info{
+
+    height:50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.aligning{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom:20px;
+}
+
+
 .story{
 
     display: flex;
     flex-direction: row;
+}
+#messageicon1{
+    color:rgb(0,123,255);
+}
+
+.bottomPost{
+    display: flex;
+    flex-direction: column;
+    border:1px solid rgb(180, 179, 179);
+    width:615px;
 }
 
 </style>
@@ -13,15 +76,24 @@
 
 <body>
 
-    <div class='story' style='width:400px;height: 100px;border:2px solid black;overflow: scroll;'>
+<div class='whole'>
+
+<div class='container'>
+
+    <div class='story' style='width:615px;height: 100px;border:1px solid rgb(180, 179, 179) ;overflow-x: scroll;'>
 
         <% if(currentUser.isStory == false){ %> 
 
-            <a href='/addstory/new'>Add Story</a>
+            <a style='font-size: 50px;margin:8px;border-right:1px solid black; padding-right: 8px;' href='/addstory/new'><i class="fas fa-user-plus"></i></a>
 
         <% } else { %> 
 
-            <a href='/story/<%=currentUser.story%>'>show story</a>
+            <a style='border-right:1px solid black' href='/story/<%=currentUser.story%>'>
+            
+                <img src="data:image/<%=currentUser.image.contentType%>;base64, 
+                <%=currentUser.image.data.toString('base64') %>" style='width:60px;height:60px;margin:8px;border-radius: 50%;' alt="Image">
+            
+            </a>
 
         <% } %> 
 
@@ -29,7 +101,12 @@
             
             <% if(k.isStory==true){ %>
                 
-                &nbsp&nbsp<a href='/story/<%=k.story._id%>'><%=k.username%></a>
+                &nbsp&nbsp<a href='/story/<%=k.story._id%>'>
+                
+                    <img src="data:image/<%=k.image.contentType%>;base64, 
+                    <%=k.image.data.toString('base64') %>" style='width:60px;height:60px;margin:8px;border-radius: 50%;' alt="Image">
+                
+                </a>
                 
             <% } %> 
 
@@ -38,142 +115,312 @@
     </div>
 
 
+
+
+
+
     
     <% let username = currentUser.username %> 
 
     <% let id = currentUser._id %> 
 
+    <br><br>
 
-    <h2>InstaChat</h2> --- <a href='/messages/show'>Message</a>
-
-    <br><br><br>
-
-    <p>Specific Posts</p>
 
     <% let i=0 %> 
     <% for(post of specificPosts){ %>
         <% i++ %> 
 
+
         <div id='post<%=i%>'>
-            
-        <a href='/post/show/<%=post._id%>'>
-            <img   src="data:image/<%=post.image.contentType%>;base64, 
-            <%=post.image.data.toString('base64') %>" width="200" height="200" alt="Image">
-        </a>
 
-        <br><br>
+        <div  class='postContainer'>
 
-        
-        <a href='/sharepost/<%=post._id%>'>Share Post</a>
+            <div class='topPost'>
 
-        <br><br>
+                <div>
 
-        <% if((currentUser.bookmarks).includes(post._id)){ %>
-        
-            <a href='/removebookmarkhome/<%=post._id%>/<%=i%>' style='font-size: larger;'><i class="fas fa-bookmark"></i></a>
-    
-        <% } else { %> 
-    
-            <a href='/addbookmarkhome/<%=post._id%>/<%=i%>' style='font-size: larger;'><i class="far fa-bookmark"></i></a> 
-    
-        <% } %> 
-    
-        <br><br>
+                <img src="data:image/<%=post.owner.image.contentType%>;base64, 
+                <%=post.owner.image.data.toString('base64') %>" alt="Image">
 
-        <%if(!((post.likes).includes(currentUser._id))){ %> 
 
-        <a  href='/likehome/<%=post._id%>/<%=i%>' style='font-size: larger;'><i class="far fa-heart"></i></a>
+                <% if((currentUser._id).equals(post.owner._id)){ %> 
 
-        <% } else{ %>
+                &nbsp&nbsp <a href='/me/profile'><span style='font-weight: bold;'><%=post.owner.username%></span></a>
+
+                <% } else { %>
                     
-        <a  href='/unlikehome/<%=post._id%>/<%=i%>' style='font-size: larger; color : red; transition:0.2s'><i class="fas fa-heart"></i></a>
+                &nbsp&nbsp <a href='/otherprofile/<%=post.owner._id%>/show'><span style='font-weight: bold;'><%=post.owner.username%></span></a>    
+
+                <% } %>
+                </div> 
+
+                <div style='margin:10px;font-weight: bold;'>
+
+                    <a  href='/post/show/<%=post._id%>'>View Post</a>
+
+                </div>
+
+            </div>
+
+            <div class='image'>
+           
+                <img  width='615px' height='480px' src="data:image/<%=post.image.contentType%>;base64, 
+                <%=post.image.data.toString('base64') %>" alt="Image">
+
+            </div>
+
+            <div class='bottomPost'>
+
+
+                <div class='info'>
+
+
+                    <div>
+
+                        <%if(!((post.likes).includes(currentUser._id))){ %> 
+
+                            <a href='/likehome/<%=post._id%>/<%=i%>' style='font-size: larger;color:black;font-size: 27px;margin:10px;'><i class="far fa-heart"></i></a>
+
+                        <% } else{ %>
+                    
+                            <a  href='/unlikehome/<%=post._id%>/<%=i%>' style='font-size: larger; color : red; transition:0.2s;font-size: 27px;margin:10px;'><i class="fas fa-heart"></i></a>
     
-        <% } %> 
+                        <% } %> 
 
-        <br><br>
+                        <%=post.likes.length%> Likes 
 
-        <%=post.likes.length%> Likes 
+                    </div>
 
-        <br><br><hr><br>
+                    <div>
+
+            
+                        <% if((currentUser.bookmarks).includes(post._id)){ %>
+        
+                            <a href='/removebookmarkhome/<%=post._id%>/<%=i%>' style='font-size: larger;color:blue;font-size: 27px;margin:10px;'><i class="fas fa-bookmark"></i></a>
+    
+                        <% } else { %> 
+    
+                            <a href='/addbookmarkhome/<%=post._id%>/<%=i%>' style='font-size: larger;color:black;font-size: 27px;margin:10px;'><i class="far fa-bookmark"></i></a> 
+    
+                        <% } %> 
+
+
+                        <a href='/sharepost/<%=post._id%>' style='font-size: larger;color:black;font-size: 27px;margin:10px;' ><i class="far fa-paper-plane"></i></a>
+
+                    </div>
+
+                </div>
+
+                <div style='border-top:1px solid rgb(180, 179, 179);padding:8px'>
+                    
+                    
+                <% if((currentUser._id).equals(post.owner._id)){ %> 
+
+                    <a href='/me/profile'><span style='font-weight: bold;'><%=post.owner.username%></span></a>
+    
+                <% } else { %>
+                        
+                    <a href='/otherprofile/<%=post.owner._id%>/show'><span style='font-weight: bold;'><%=post.owner.username%></span></a>    
+    
+                <% } %>                    
+                    
+                &nbsp&nbsp <%=post.description%> 
+                
+                </div>
+    
+
+
+            </div>
+
+        </div>
 
         </div>
     
     <% } %> 
 
-    <p>Suggested Posts</p>
+    <% if(suggestedPosts.length!=0){ %> 
 
+    <p>Suggested Posts</p>
 
     <% let j=0 %> 
     <% for(post of suggestedPosts){ %>
-        
         <% j++ %> 
+
 
         <div id='post<%=j%>'>
 
-        <a href='/post/show/<%=post._id%>'>
-            <img src="data:image/<%=post.image.contentType%>;base64, 
-            <%=post.image.data.toString('base64') %>" width="200" height="200" alt="Image">
-        </a>
-        
-        <br><br>
+        <div  class='postContainer'>
 
-        <a href='/sharepost/<%=post._id%>'>Share Post</a>
+            <div class='topPost'>
 
-        <br><br>
+                <div>
 
-        <% if((currentUser.bookmarks).includes(post._id)){ %>
-        
-            <a href='/removebookmarkhome/<%=post._id%>/<%=j%>' style='font-size: larger;'><i class="fas fa-bookmark"></i></a>
-    
-        <% } else { %> 
-    
-            <a href='/addbookmarkhome/<%=post._id%>/<%=j%>' style='font-size: larger;'><i class="far fa-bookmark"></i></a> 
-    
-        <% } %> 
+                <img src="data:image/<%=post.owner.image.contentType%>;base64, 
+                <%=post.owner.image.data.toString('base64') %>" alt="Image">
 
-        <br><br>
 
-        <%if(!((post.likes).includes(currentUser._id))){ %> 
+                <% if((currentUser._id).equals(post.owner._id)){ %> 
 
-        <a  href='/likehome/<%=post._id%>/<%=j%>' style='font-size: larger;'><i class="far fa-heart"></i></a>
+                &nbsp&nbsp <a href='/me/profile'><span style='font-weight: bold;'><%=post.owner.username%></span></a>
 
-        <% } else{ %>
+                <% } else { %>
                     
-        <a  href='/unlikehome/<%=post._id%>/<%=j%>' style='font-size: larger; color : red; transition:0.2s'><i class="fas fa-heart"></i></a>
+                &nbsp&nbsp <a href='/otherprofile/<%=post.owner._id%>/show'><span style='font-weight: bold;'><%=post.owner.username%></span></a>    
+
+                <% } %>
+                </div> 
+
+                <div style='margin:10px;font-weight: bold;'>
+
+                    <a  href='/post/show/<%=post._id%>'>View Post</a>
+
+                </div>
+
+            </div>
+
+            <div class='image'>
+           
+                <img  width='615px' height='480px' src="data:image/<%=post.image.contentType%>;base64, 
+                <%=post.image.data.toString('base64') %>" alt="Image">
+
+            </div>
+
+            <div class='bottomPost'>
+
+
+                <div class='info'>
+
+
+                    <div>
+
+                        <%if(!((post.likes).includes(currentUser._id))){ %> 
+
+                            <a href='/likehome/<%=post._id%>/<%=i%>' style='font-size: larger;color:black;font-size: 27px;margin:10px;'><i class="far fa-heart"></i></a>
+
+                        <% } else{ %>
+                    
+                            <a  href='/unlikehome/<%=post._id%>/<%=i%>' style='font-size: larger; color : red; transition:0.2s;font-size: 27px;margin:10px;'><i class="fas fa-heart"></i></a>
     
-        <% } %> 
+                        <% } %> 
 
-        <br><br>
+                        <%=post.likes.length%> Likes 
 
-        <%=post.likes.length%> Likes 
+                    </div>
 
-        <br><hr><br>
+                    <div>
 
-    </div>
+            
+                        <% if((currentUser.bookmarks).includes(post._id)){ %>
+        
+                            <a href='/removebookmarkhome/<%=post._id%>/<%=i%>' style='font-size: larger;color:blue;font-size: 27px;margin:10px;'><i class="fas fa-bookmark"></i></a>
+    
+                        <% } else { %> 
+    
+                            <a href='/addbookmarkhome/<%=post._id%>/<%=i%>' style='font-size: larger;color:black;font-size: 27px;margin:10px;'><i class="far fa-bookmark"></i></a> 
+    
+                        <% } %> 
+
+
+                        <a href='/sharepost/<%=post._id%>' style='font-size: larger;color:black;font-size: 27px;margin:10px;' ><i class="far fa-paper-plane"></i></a>
+
+                    </div>
+
+                </div>
+
+                <div style='border-top:1px solid rgb(180, 179, 179);padding:8px'>
+                    
+                    
+                <% if((currentUser._id).equals(post.owner._id)){ %> 
+
+                    <a href='/me/profile'><span style='font-weight: bold;'><%=post.owner.username%></span></a>
+    
+                <% } else { %>
+                        
+                    <a href='/otherprofile/<%=post.owner._id%>/show'><span style='font-weight: bold;'><%=post.owner.username%></span></a>    
+    
+                <% } %>                    
+                    
+                &nbsp&nbsp <%=post.description%> 
+                
+                </div>
+    
+
+
+            </div>
+
+        </div>
+
+        </div>
     
     <% } %> 
 
 
 
-    <p>Suggested for you : </p>
+</div>
 
-    <% if(users.length!=0){ %> 
+<% } %> 
 
-    <ul>
+
+
+
+<div class='suggested'>
+
+
+
+    <% if(users.length>=1){ %> 
+
+        <div class='aligning'>
+
+            <span>Suggested for you : </span>
+    
+            <a href='/allProfiles/show'>See All</a>
+    
+        </div>
+
+    <% let count=0 %> 
 
     <% for(user of users){ %>
+
+        <% if(count<=5){ %> 
 
         <% if(user.status !== 'public') { %> 
 
             <% if((user._id).equals(currentUser._id)==false){ %> 
         
                 <% if((currentUser.following.includes(user._id)==false) && (currentUser.requestSent.includes(user._id)==false)) { %>
+
+                    <% count++ %> 
             
-                    <li><a href='/otherprofile/<%=user._id%>/show'><%=user.username%></a> - <a href='/requestfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Follow</a> </li>
+                    <div class='aligning'>
+
+                        <div>
+
+                            <img src="data:image/<%=user.image.contentType%>;base64, 
+                            <%=user.image.data.toString('base64') %>" width="30px" height="30px" style='border-radius: 50%;' alt="Image">
+
+                            &nbsp<a href='/otherprofile/<%=user._id%>/show'><%=user.username%></a>
+
+                        </div>  
+                        <a href='/requestfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Follow</a>
+                    </div>
 
                 <%} else if((currentUser.following.includes(user._id)==false) && (currentUser.requestSent.includes(user._id)==true)){ %>
+
+                    <% count++ %> 
             
-                    <li><a href='/otherprofile/<%=user._id%>/show'><%=user.username%></a> - requestSent <a href='/requestcancelfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Cancel</a></li>
+                    <div class='aligning'>
+
+                        <div>
+                            
+                            <img src="data:image/<%=user.image.contentType%>;base64, 
+                            <%=user.image.data.toString('base64') %>" width="30px" height="30px" style='border-radius: 50%;' alt="Image">
+                            &nbsp<a href='/otherprofile/<%=user._id%>/show'><%=user.username%></a> 
+
+                        </div>
+
+                            <a href='/requestcancelfrom/<%=currentUser._id%>/requestto/<%=user._id%>'>Cancel request</a>
+                    </div>
 
                 <% } %>
             <% } %> 
@@ -185,7 +432,19 @@
         
                 <% if((currentUser.following.includes(user._id)==false)) { %> 
 
-                    <li><a href='/otherprofile/<%=user._id%>/show'> <%=user.username%></a> - <a href='/followpublic/<%=user._id%>'>Follow</a> </li>
+                    <% count++ %> 
+
+                    <div class='aligning'>
+                        
+                        <div>
+                            <img src="data:image/<%=user.image.contentType%>;base64, 
+                            <%=user.image.data.toString('base64') %>" width="30px" height="30px" style='border-radius: 50%;' alt="Image">
+
+                            &nbsp<a href='/otherprofile/<%=user._id%>/show'> <%=user.username%></a>  
+
+                        </div>
+
+                        <a href='/followpublic/<%=user._id%>'>Follow</a> </div>
 
                 <% } %> 
 
@@ -196,28 +455,15 @@
         
     <% } %> 
 
-    </ul>
-
-    <% } else { %> 
-
-        <p>No users found!</p>
+    <% } %> 
 
     <% } %> 
 
 
+</div>
 
+</div>
 
-<a href='/me/notifications'>Notifications</a>
-
-<br><br>
-
-<a href='/me/profile'>Profile</a>
-
-<br><br>
-
-<a href='/logout'>Logout</a>
-
-<br><br>
 
 
 <script>

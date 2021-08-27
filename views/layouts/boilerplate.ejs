@@ -26,15 +26,151 @@
     <link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/stylesheets/main.css">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playball&display=swap" rel="stylesheet">
+
     <!-- For Bootstrap -->
     
     <title>InstaChat</title>
+
 </head>
 <body>
     
-    <%- include('../partials/flash') %>
+<style>
+body{
+    margin:0;
+    padding:0;
+}
+.navbar{
+    border : 1px solid rgb(161, 158, 158);
+    height : 60px;
+}
+.navcontainer{
+    width:100%;
+    max-width: 950px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
-    <%- body -%>
+#logo{
+    font-size: 30px;
+    float:left;
+    /* font-weight:bold; */
+}
+
+
+input{
+    width:215px;
+}
+
+#searchBar{
+    margin:5px;
+}
+
+
+.icons{
+
+    font-size: 25px;
+}
+.profileimg{
+    border-radius: 50%;
+    width:30px; 
+    height:30px
+}
+
+.icons>*{
+    margin:0 10px;
+}
+
+.icons>a{
+    color:rgb(31, 30, 30);
+}
+
+.icons > a:focus{
+    color:blueviolet;
+}
+
+
+#searchIcon{
+    display:none;
+}
+
+@media(max-width:600px){
+
+#searchIcon{
+    display:inline;
+}  
+
+#searchBar{
+    display:none;
+}
+
+}
+
+@media(max-width:430px){
+
+.icons{
+
+font-size: 20px;
+}
+
+.icons>*{
+    margin:0 7px;
+}
+
+#logo{
+    font-size: 20px;
+}
+
+}
+
+
+</style>
+
+<%- include('../partials/flash') %>
+
+<div class='navbar'>
+
+    <div class='navcontainer'>
+
+        <div id='logo'>
+
+            <p style='font-family: Playball, cursive;'>Instachat</p>
+
+        </div>
+
+        <div id='searchBar'>
+
+            <input placeholder="search">
+
+        </div>
+
+        <div class='icons'>
+
+            <a href='/home'><i id='messageicon1' class="fas fa-home"></i></a>
+            <a  href='/messages/show'><i id='messageicon' class="fab fa-facebook-messenger"></i></a>
+            <i id='searchIcon' class="fas fa-search"></i>
+            <a href='/me/notifications'><i id='notigfyicon' class="fas fa-heart"></i></a>
+            <a href='/me/profile'><img class='profileimg'  src="data:image/<%=currentUser.image.contentType%>;base64, 
+            <%=currentUser.image.data.toString('base64') %>" alt="Image"></a>
+
+
+        </div>
+        
+
+
+    </div>
+
+
+</div>
+
+
+
+  <%- body -%>
+
 
 
 

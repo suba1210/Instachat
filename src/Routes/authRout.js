@@ -116,8 +116,6 @@ router.get('/subregister/:id',async(req,res)=>{
 router.post('/subregister/:id',upload.single('image'),async(req,res)=>{
 
     if(req.file){
-
-    const user = await User.findById(req.params.id);
     const {status,bio,mobileNumber} = req.body;
     const updateUser = await User.findByIdAndUpdate(req.params.id,{status,bio,mobileNumber,haveProfile:true,
         image : {
@@ -125,11 +123,13 @@ router.post('/subregister/:id',upload.single('image'),async(req,res)=>{
             contentType: 'image/png'
         }
     });
+    const user = await User.findById(req.params.id);
+    user.haveProfile = true;
+    await user.save();
     req.flash('success_msg','Successfully registered! You can login now!');
     res.redirect('/login');
 
     } else {
-        const user = await User.findById(req.params.id);
         const {status,bio,mobileNumber} = req.body;
         const updateUser = await User.findByIdAndUpdate(req.params.id,{status,bio,mobileNumber,haveProfile:false,
             image : {
@@ -137,6 +137,9 @@ router.post('/subregister/:id',upload.single('image'),async(req,res)=>{
                 contentType: 'image/png'
             }
         });
+        const user = await User.findById(req.params.id);
+        user.haveProfile = false;
+        await user.save();
         req.flash('success_msg','Successfully registered! You can login now!');
         res.redirect('/login');
     }
