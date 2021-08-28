@@ -1,10 +1,44 @@
 <% layout('layouts/boilerplate')%>
+
+
+<style>
+
+    .form{
+        max-width: 700px;
+        margin:0 auto;
+    }
+    input{
+        width:100%;
+        height:40px;
+        padding:10px;
     
-<form action="/profile/edit" method="POST" enctype='multipart/form-data'>
+    }
+    label{
+        font-weight: bold;
+    }
+    .centeralign{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+    }
+    .centeralign>*{
+        margin:10px;
+    }
 
-    <h3>Edit Profile</h3> 
 
-    <br><br>
+
+
+
+</style>
+
+<h3 style='text-align: center;margin:20px'>Edit Profile</h3> 
+
+
+
+    
+<form class='form' action="/profile/edit" method="POST" enctype='multipart/form-data'>
+
 
     <label for='realname'>Name : </label><br>
     <input type='text' id='realname' name='realname' value='<%=currentUser.realname%>' required>
@@ -12,13 +46,13 @@
     <br><br>
 
     <label for='bio'>Bio : </label><br>
-    <textarea id='bio' name='bio'><%=currentUser.bio%></textarea>
+    <textarea id='bio' style="width: 100%;padding:10px; max-width: 100%;" name='bio' placeholder='Tell Something about to the people...'><%=currentUser.bio%></textarea>
 
     <br><br>
 
     <% if(currentUser.haveProfile==true){ %>
         
-        <label for='editPhoto'>Change Profile photo</label>
+        <label for='editPhoto'>Change Profile photo : </label> &nbsp&nbsp
 
         <select name='photo' id='editPhoto' onchange="return changeInput()">
 
@@ -27,29 +61,33 @@
 
         </select>
 
-        <br><br>
 
         <input type='file' id='file' name='image' onchange="return fileValidation()">
 
     <% } else { %>
+
+
         
-        <label for='file'>Add Profile photo</label>
-
-        <br><br>
-
-        <input type='file' id='file' name='image' onchange="return fileValidation()">
+        <label for='file'>Add Profile photo : </label> <input type='file' id='file' name='image' onchange="return fileValidation()">
         
     <% } %> 
 
-    <br><br>
+    <br><br><br>
 
-    <button type='submit'>Update</button>
+    
+    <div class='centeralign'>
+
+    <button class='btn btn-primary' type='submit'>Update</button>
+
+    <a class='btn btn-primary' role='button' href='/me/profile'>Back</a>
+
+    </div>
 
 </form>
 
 <br><br>
 
-<a href='/me/profile'>Back</a>
+
 
 <script>
 

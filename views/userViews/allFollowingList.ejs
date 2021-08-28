@@ -1,20 +1,57 @@
 <% layout('layouts/boilerplate')%>
+
+<style>
+    .suggested{
+        max-width: 640px;
+        width:100%;
+        border:1px solid rgb(180, 179, 179);
+        margin:10px auto;
+        padding:24px;
+        border-radius: 8px;
+    }
+    .aligning{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom:20px;
+    }
+    .aligning>div>a{
+        color:black;
+        font-weight: bold;
+    }
     
-<h4>All Following</h4>
+</style>
+    
+<h4 style='text-align: center;margin:40px' >Following</h4>
+    
+<div class='suggested'>
 
 
 <% if(currentUser.following.length!=0){ %>
     
     <% for(following of currentUser.following){ %>
+
+        <div class='aligning'>
+
+            <div>
+                <img src="data:image/<%=user.image.contentType%>;base64, 
+                <%=user.image.data.toString('base64') %>" width="40px" height="40px" style='border-radius: 50%;' alt="Image">
+
+                &nbsp&nbsp&nbsp<a href='/otherprofile/<%=following._id%>/show'><%=following.username%></a>  
+
+            </div>
         
-        <a href='/otherprofile/<%=following._id%>/show'><%=following.username%></a> -  <a href='/unfollow/<%=following._id%>'>Click here to unfollow</a>
+        
+            <a class="btn btn-primary" role='button' href='/unfollow/<%=following._id%>'>Unfollow</a>
+
+        </div>
 
     <% } %> 
 
+<% }else{ %>
+    
+    <p style='text-align: center;font-weight: bold;'>You aren't following anyone!</p>
+
 <% } %> 
 
-
-<br><br>
-
-
-<a href='/me/profile'>Back to profile</a>
+</div>

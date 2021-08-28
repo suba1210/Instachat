@@ -6,64 +6,131 @@
     border-radius: 50%;
 }
 
+.wholeContainer{
+    max-width: 930px;
+    width: 100%;
+    margin:20px auto;
+}
+.profileContainer{
+    display: flex;
+    flex-direction: row;
+    margin:20px;
+}
+.photo{
+    margin:20px;
+}
+.info{
+    margin:25px;
+    padding-left:60px;
+}
+.nameEdit{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 5px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.button4 {
+  background-color: white;
+  color: black;
+  border: 2px solid #e7e7e7;
+}
+
+.button4:hover {background-color: #e7e7e7;}
+
+.button>a{
+    text-decoration: none;
+    color:rgb(54, 53, 53);
+}
+
+.followInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.followInfo>*{
+    margin-right:40px;
+    color:black;
+}
+.followInfo>a:hover{
+    color:black;
+    text-decoration: none;
+}
+
 </style>
 
 
 
 
 
-<body>
+<div class='wholeContainer'>
+
+
+    <div class='profileContainer'>
+
+
+    <div class='photo'>
+    
+        <img src="data:image/<%=currentUser.image.contentType%>;base64, 
+        <%= currentUser.image.data.toString('base64') %>" width="150" height="150" id='profile' alt="Image">
+
+    </div>
+
+    <div class='info'>
+
+
+    <div class='nameEdit'>
+
+        <h2><%=currentUser.username%></h2>
+
+        <button class="button button4"><a href='/profile/edit' >Edit Profile</a></button>
+
+    </div>
+
+    <div class='followInfo'>
+
+        <span><span style='font-weight: bold;'><%=currentUser.posts.length%></span>&nbsp posts </span>
+    
+        <a href='/allfollowers/show'><span style='font-weight: bold;'><%=currentUser.followers.length%></span>&nbsp followers</a>
+        
+        <a href='/myfollowing/show'><span style='font-weight: bold;'><%=currentUser.following.length%></span>&nbsp following</a>
+
+    </div>
+
+
     
 
-    <img src="data:image/<%=currentUser.image.contentType%>;base64, 
-    <%= currentUser.image.data.toString('base64') %>" width="200" height="200" id='profile' alt="Image">
+
+    <p style='font-weight: bold;'><%=currentUser.realname%></p>
 
 
-    <br><br>
-
-    <h2><%=currentUser.username%></h2>
-
-    <a href='/profile/edit' >Edit Profile</a>
-
-    <br><br>
-
-    <%=currentUser.posts.length%>&nbsp posts
-    
-    <br><br>
-
-    <a href='/allfollowers/show'><%=currentUser.followers.length%>&nbsp followers</a> 
-    
-    <br><br>
+    <p><%=currentUser.bio%></p>
 
 
-    <a href='/myfollowing/show'><%=currentUser.following.length%>&nbsp following</a>
-    
-    <br><br>
+    </div>
 
-    <%=currentUser.mutual.length%> &nbsp mutuals
 
-    <br><br>
+    </div>
 
-    <%=currentUser.realname%>
-    
-    <br><br>
-
-    Email : <%=currentUser.email%> 
-
-    <br><br>
-
-    Bio : <%=currentUser.bio%> 
-
-    <br><br>
-
-    <p>status : <%=currentUser.status%> </p>
+    <hr>
 
     <p><a href='/post/createnew'> Add Post </a></p>
 
-    
-    <a href='/home'>Back to home Page</a>
 
-    <br><hr><br><br>
 
     <% if(currentUser.posts.length!=0){ %> 
 
@@ -98,3 +165,5 @@
         <% } %> 
         
     <% } %> 
+
+</div>
