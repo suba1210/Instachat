@@ -1,7 +1,9 @@
 ### Instachat
 
-• Instachat is a Social Media Website made with NodeJS, MongoDB, Socket IO, CSS, JavaScript with EJS as templating engine.
-
-• Implemented features of real time social media application by allowing the users to create public and private accounts and added features for Like, Comment and Share posts of other users
-
-• Implemented one-to-one and group chat features with Socket IO.
+• Instachat is a real-time social media web application developed using JavaScript, NodeJS and MongoDB.
+• Users can create public and private accounts and the users can follow and unfollow other users.
+• Users can like, comment and share posts among their followers.
+• Users can view posts of people they follow in their feed.
+• Additional Profile settings like Profile picture, Name, bio can be edited.
+• Users can get notifications of the activities of the people they follow.
+• Users can enjoy live one-to-one and group chat features which is made with Socket IO.
